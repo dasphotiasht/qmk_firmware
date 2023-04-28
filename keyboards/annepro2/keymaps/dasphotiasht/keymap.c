@@ -80,7 +80,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void toggle_layer(uint8_t layer) {
     if (layer_state_is(layer)) {
-        layer_off(layer)    } else {
+        layer_off(layer);
+    } else {
         layer_on(layer);
     }
 }
@@ -88,7 +89,11 @@ void toggle_layer(uint8_t layer) {
 void handle_caps_tap_dance(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
-            toggle_layer(_MOUSE_LAYER);
+            if (layer_state_is(_ARROW_LAYER)) {
+                layer_off(_ARROW_LAYER);
+            } else {
+                toggle_layer(_MOUSE_LAYER);
+            }
             break;
         case 2:
             toggle_layer(_ARROW_LAYER);
