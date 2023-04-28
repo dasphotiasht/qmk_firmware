@@ -54,21 +54,25 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    /* Override AP2 LED Profiles with black*/
+    ap2_led_set_foreground_color(0x00, 0x00, 0x00);
+
+    /* Add custom lightings on top of the black */
     switch (get_highest_layer(state)) {
         case _BASE_LAYER:
-            ap2_led_set_foreground_color(0x00, 0x00, 0x00);
+            custom_ap2_set_indicator_color(0x00, 0x00, 0x00);
             break;
         case _FUNCTION_LAYER:
-            ap2_led_set_foreground_color(0x00, 0xFF, 0x00);
+            custom_ap2_set_indicator_color(0x00, 0xFF, 0x00);
             break;
         case _MOUSE_LAYER:
-            ap2_led_set_foreground_color(0x00, 0x88, 0xFF);
+            custom_ap2_set_indicator_color(0x00, 0x88, 0xFF);
             break;
         case _ARROW_LAYER:
-            ap2_led_set_foreground_color(0x7A, 0x7A, 0x00);
+            custom_ap2_set_indicator_color(0x7A, 0x7A, 0x00);
             break;
         default:
-            ap2_led_set_foreground_color(0x00, 0x00, 0x00);
+            custom_ap2_set_indicator_color(0x00, 0x00, 0x00);
             break;
         }
     return state;
@@ -76,8 +80,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 void toggle_layer(uint8_t layer) {
     if (layer_state_is(layer)) {
-        layer_off(layer);
-    } else {
+        layer_off(layer)    } else {
         layer_on(layer);
     }
 }

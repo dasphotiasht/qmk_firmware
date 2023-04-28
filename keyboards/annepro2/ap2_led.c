@@ -175,3 +175,20 @@ void ap2_led_forward_keypress(uint8_t row, uint8_t col) {
     const uint8_t payload = row << 4 | col;
     proto_tx(CMD_LED_KEY_DOWN, &payload, 1, 1);
 }
+
+/* Light top most row with the specified color */
+void custom_ap2_set_indicator_color(uint8_t red, uint8_t green, uint8_t blue) {
+    const ap2_led_t color = {
+        .p.red   = red,
+        .p.green = green,
+        .p.blue  = blue,
+        .p.alpha = 0xFF,
+    };
+    const uint8_t row = 0;
+    const uint8_t start_col = 0; /* Esc key, left most */
+    const uint8_t end_col = 13; /* Backspace key, right most */
+
+    for(uint8_t cur = start_col; cur <= end_col; cur++) {
+        ap2_led_mask_set_key(row, cur, color);
+    }
+}

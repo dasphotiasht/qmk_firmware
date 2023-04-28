@@ -107,3 +107,6 @@ void flush(void);
 void set_color(int index, uint8_t r, uint8_t g, uint8_t b);
 void set_color_all(uint8_t r, uint8_t g, uint8_t b);
 #endif
+
+/* Light top most row with the specified color */
+void custom_ap2_set_indicator_color(uint8_t red, uint8_t green, uint8_t blue);
