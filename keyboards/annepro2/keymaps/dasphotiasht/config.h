@@ -1,1 +1,2 @@
+#define COMBO_COUNT 1
 #define MOUSEKEY_MAX_SPEED 5

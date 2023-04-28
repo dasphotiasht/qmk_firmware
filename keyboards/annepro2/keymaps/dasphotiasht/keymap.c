@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "ap2_led.h"
 
 enum anne_pro_layers {
     _BASE_LAYER,
@@ -12,6 +11,15 @@ enum anne_pro_layers {
 enum {
     CAPS_TAP_DANCE,
     ESC_GRV_TAP_DANCE
+};
+
+enum custom_keycodes {
+    BOOTLOADER = SAFE_RANGE
+};
+
+const uint16_t PROGMEM bootloader_combo[] = {KC_BSPC, KC_RBRC, KC_BSLS, COMBO_END};
+combo_t key_combos[COMBO_COUNT] = {
+    COMBO(bootloader_combo, BOOTLOADER),
 };
 
 const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -88,4 +96,15 @@ void handle_caps_tap_dance(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
   [CAPS_TAP_DANCE] = ACTION_TAP_DANCE_FN(handle_caps_tap_dance),
   [ESC_GRV_TAP_DANCE] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV)
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case BOOTLOADER:
+            if (record->event.pressed) {
+                bootloader_jump();
+            } 
+            break;
+        }
+    return true;
 };
