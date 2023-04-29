@@ -1,5 +1,4 @@
 #include QMK_KEYBOARD_H
-#include "print.h"
 
 enum anne_pro_layers {
     _BASE_LAYER,
