@@ -27,7 +27,7 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,                KC_Q,    KC_W,                          KC_E,   KC_R,                KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_LBRC,       KC_RBRC, KC_BSLS,
         TD(CAPS_TAP_DANCE),    KC_A,    KC_S,                          KC_D,   KC_F,                KC_G,    KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT,       KC_ENT,
         KC_LSFT,               KC_Z,    KC_X,                          KC_C,   KC_V,                KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_UP),
-        KC_LCTL,               KC_LGUI, LM(_FUNCTION_LAYER, MOD_LALT), KC_SPC, TG(_FUNCTION_LAYER), KC_LEFT, KC_DOWN, KC_RIGHT
+        KC_LCTL,               KC_LGUI, LM(_FUNCTION_LAYER, MOD_LALT), KC_SPC, TO(_FUNCTION_LAYER), KC_LEFT, KC_DOWN, KC_RIGHT
     ),
     [_MOUSE_LAYER] = LAYOUT_60_ansi( /* MOUSE CONTROL LAYER */
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -77,26 +77,18 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     return state;
 }
 
-void toggle_layer(uint8_t layer) {
-    if (layer_state_is(layer)) {
-        layer_off(layer);
-    } else {
-        layer_on(layer);
-    } 
-}
-
 void caps_dance_finished(tap_dance_state_t *state, void *user_data) {
     switch (state->count)
     {
         case 1:
-            if (layer_state_is(_ARROW_LAYER)) {
-                layer_off(_ARROW_LAYER);
+            if (layer_state_is(_BASE_LAYER)) {
+                layer_move(_MOUSE_LAYER);
             } else {
-                toggle_layer(_MOUSE_LAYER);
+                layer_clear();
             }
             break;
         case 2: 
-            toggle_layer(_ARROW_LAYER);
+            layer_move(_ARROW_LAYER);
             break;
     }
 }
