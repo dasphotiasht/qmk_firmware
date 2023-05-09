@@ -10,7 +10,8 @@ enum anne_pro_layers {
 
 enum {
     ESC_GRV_TAP_DANCE,
-    CAPS_TAP_DANCE
+    CAPS_TAP_DANCE,
+    BTN23_TAP_DANCE
 };
 
 enum custom_keycodes {
@@ -31,11 +32,11 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LM(_VANILLA_LAYER, MOD_LCTL), LM(_VANILLA_LAYER, MOD_LGUI), LM(_FUNCTION_LAYER, MOD_LALT), KC_SPC, TG(_FUNCTION_LAYER), KC_LEFT, KC_DOWN, KC_RIGHT
     ),
     [_MOUSE_LAYER] = LAYOUT_60_ansi( /* MOUSE CONTROL LAYER */
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______, KC_WH_U, KC_MS_U, KC_WH_D, KC_BTN2, _______, KC_BTN2, KC_WH_U, KC_MS_U, KC_WH_D, _______, _______, _______, _______,
-        _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN1, _______, KC_BTN1, KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, 
-        _______, _______, _______, _______, _______, _______, _______, _______
+        _______, _______, _______, _______, _______,             _______, _______,             _______, _______, _______, _______, _______, _______, _______,
+        _______, KC_WH_U, KC_MS_U, KC_WH_D, TD(BTN23_TAP_DANCE), _______, TD(BTN23_TAP_DANCE), KC_WH_U, KC_MS_U, KC_WH_D, _______, _______, _______, _______,
+        _______, KC_MS_L, KC_MS_D, KC_MS_R, KC_BTN1,             _______, KC_BTN1,             KC_MS_L, KC_MS_D, KC_MS_R, _______, _______, _______,
+        _______, _______, _______, _______, _______,             _______, _______,             _______, _______, _______, _______, _______, 
+        _______, _______, _______, _______, _______,             _______, _______,             _______
     ),
     [_ARROW_LAYER] = LAYOUT_60_ansi( /* WASD AS ARROW LAYER*/
         _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -78,7 +79,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _ARROW_LAYER:
             custom_ap2_set_indicator_color(0x7A, 0x7A, 0x00);
             break;
-        case _CONTROL_LAYER:
+        case _VANILLA_LAYER:
             custom_ap2_set_indicator_color(0xFF, 0x4D, 0x94);
             break;
         default:
@@ -106,7 +107,8 @@ void caps_dance_finished(tap_dance_state_t *state, void *user_data) {
 
 tap_dance_action_t tap_dance_actions[] = {
   [CAPS_TAP_DANCE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, caps_dance_finished, NULL),
-  [ESC_GRV_TAP_DANCE] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV)
+  [ESC_GRV_TAP_DANCE] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
+  [BTN23_TAP_DANCE] = ACTION_TAP_DANCE_DOUBLE(KC_BTN2, KC_BTN3)
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
