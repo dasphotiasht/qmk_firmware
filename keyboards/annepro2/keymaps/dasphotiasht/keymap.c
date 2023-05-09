@@ -61,6 +61,23 @@ const uint16_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+/* Light top most row with the specified color */
+void set_first_row_light(uint8_t red, uint8_t green, uint8_t blue) {
+    const ap2_led_t color = {
+        .p.red   = red,
+        .p.green = green,
+        .p.blue  = blue,
+        .p.alpha = 0xFF,
+    };
+    const uint8_t row = 0;
+    const uint8_t start_col = 0; /* Esc key, left most */
+    const uint8_t end_col = 13; /* Backspace key, right most */
+
+    for(uint8_t cur = start_col; cur <= end_col; cur++) {
+        ap2_led_mask_set_key(row, cur, color);
+    }
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     /* Override AP2 LED Profiles with black*/
     ap2_led_set_foreground_color(0x00, 0x00, 0x00);
@@ -68,22 +85,22 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     /* Add custom lightings on top of the black */
     switch (get_highest_layer(state)) {
         case _BASE_LAYER:
-            custom_ap2_set_indicator_color(0x00, 0x00, 0x00);
+            set_first_row_light(0x00, 0x00, 0x00);
             break;
         case _FUNCTION_LAYER:
-            custom_ap2_set_indicator_color(0x00, 0xFF, 0x00);
+            set_first_row_light(0x00, 0xFF, 0x00);
             break;
         case _MOUSE_LAYER:
-            custom_ap2_set_indicator_color(0x00, 0x88, 0xFF);
+            set_first_row_light(0x00, 0x88, 0xFF);
             break;
         case _ARROW_LAYER:
-            custom_ap2_set_indicator_color(0x7A, 0x7A, 0x00);
+            set_first_row_light(0x7A, 0x7A, 0x00);
             break;
         case _VANILLA_LAYER:
-            custom_ap2_set_indicator_color(0xFF, 0x4D, 0x94);
+            set_first_row_light(0xFF, 0x4D, 0x94);
             break;
         default:
-            custom_ap2_set_indicator_color(0x00, 0x00, 0x00);
+            set_first_row_light(0x00, 0x00, 0x00);
             break;
         }
     return state;
